@@ -3,7 +3,7 @@
 class SocialMedia_widget extends WP_Widget{
 
     public function __construct() {
-        load_plugin_textdomain( 'SocialMedia')
+        load_plugin_textdomain( 'SocialMedia');
         parent::__construct(
             'socialmedia_widget',
             __( 'socialmedia widget', 'SocialMedia'),
@@ -13,20 +13,6 @@ class SocialMedia_widget extends WP_Widget{
             );
     }
 
-    add_action( 'widgets_init', 'new_social_zone' );
-
-function new_social_zone() {
-
-    register_sidebar( array(
-        'name'          => 'icone media réseaux sociaux',
-        'id'            => 'nouvelle_zone',
-        'before_widget' => '<div>',
-        'after_widget'  => '</div>',
-        'before_title'  => '<h2 class="rounded">',
-        'after_title'   => '</h2>',
-        'class'         => 'icons_social',
-    ) );
-}
 
     function form( $instance ) {
 
