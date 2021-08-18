@@ -17,7 +17,7 @@ function social_install()
     name_social varchar(100) DEFAULT NULL,
     link_social varchar(200) DEFAULT NULL,
     img_social varchar(200) DEFAULT NULL,
-    PRIMARY KEY  (id)
+    PRIMARY KEY  (id_social)
     )$charset_collate;";
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -34,10 +34,10 @@ function social_install_data() {
 	$welcome_name = 'Mr. WordPress';
 	$welcome_text = 'Congratulations, you just completed the installation!';
 	
-	$table_name = $wpdb->prefix . 'liveshoutbox';
+	$social_table_name = $wpdb->prefix . 'social';
 	
 	$wpdb->insert( 
-		$table_name, 
+		$social_table_name, 
 		array( 
 			'time' => current_time( 'mysql' ), 
 			'name' => $welcome_name, 
@@ -45,3 +45,8 @@ function social_install_data() {
 		) 
 	);
 }
+
+///calls the function to create the database when the plugin is activated
+register_activation_hook( __FILE__, 'social_install' );
+register_activation_hook( __FILE__, 'social_install_data' );
+
