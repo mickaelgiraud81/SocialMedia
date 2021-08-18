@@ -9,6 +9,14 @@
 
 add_action("admin_menu", "SocialMedia_add_menu_dashboard");
 
+define( 'SOCIALMEDIA__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+require_once( SOCIALMEDIA__PLUGIN_DIR . 'social-media-connect.php' );
+
+///calls the function to create the database when the plugin is activated
+register_activation_hook( __FILE__, 'social_install' );
+register_activation_hook( __FILE__, 'social_install_data' );
+
+
 function SocialMedia_add_menu_dashboard()
 {
 
@@ -41,6 +49,4 @@ function SocialMedia_create_page_settings()
 <?php
 
 }
-
-
 

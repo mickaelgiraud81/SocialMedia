@@ -7,6 +7,7 @@ function social_install()
 {
 
     global $wpdb;
+    global $social_db_version;
 
     $charset_collate = $wpdb->get_charset_collate();
 
@@ -46,7 +47,4 @@ function social_install_data() {
 	);
 }
 
-///calls the function to create the database when the plugin is activated
-register_activation_hook( __FILE__, 'social_install' );
-register_activation_hook( __FILE__, 'social_install_data' );
 
