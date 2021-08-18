@@ -41,3 +41,7 @@ function SocialMedia_create_page_settings()
 <?php
 
 }
+
+///calls the function to create the database when the plugin is activated
+register_activation_hook( __FILE__, 'social_install' );
+register_activation_hook( __FILE__, 'social_install_data' );
