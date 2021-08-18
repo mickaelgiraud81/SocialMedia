@@ -13,15 +13,28 @@ class SocialMedia_widget extends WP_Widget{
             );
     }
 
+    add_action( 'widgets_init', 'new_social_zone' );
+
+function new_social_zone() {
+
+    register_sidebar( array(
+        'name'          => 'icone media réseaux sociaux',
+        'id'            => 'nouvelle_zone',
+        'before_widget' => '<div>',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h2 class="rounded">',
+        'after_title'   => '</h2>',
+        'class'         => 'icons_social',
+    ) );
+}
+
     function form( $instance ) {
 
         $defaults = apply_filters( 'icones_styles', array(
-            'title'  => '',
-            'size'   => 36,
-            'alignement'   => 'alignleft',
-            'facebook'   => '',
-            'instagram'  => '',
-            'youtube'  => '',
+            'name'      => '',
+            'facebook'  => '',
+            'instagram' => '',
+            'youtube'   => '',
             'linkedin'  => '',
 
         ));
@@ -29,9 +42,11 @@ class SocialMedia_widget extends WP_Widget{
 
           <p>
 
-            <label for="<?php echo esc_attr( $this->get_field_id( 'title' )); ?>"><?php _e('title:', 'icones'); ?></label>
-            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"name="<?php echo esc_attr( $this->get_field_name( 'title')); ?>" type="text" value="<?php echo esc_attr($title); ?>">
+            <label for="<?php echo esc_attr( $this->get_field_id( 'name' )); ?>"><?php _e('name:', 'icones'); ?></label>
+            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'name' ) ); ?>"name="<?php echo esc_attr( $this->get_field_name( 'name')); ?>" type="text" value="<?php echo esc_attr($name); ?>"/>
+
           
           </p>  
+          <?php
     }
 }
