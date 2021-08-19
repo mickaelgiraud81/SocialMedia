@@ -45,6 +45,14 @@ function social_install_data() {
 			'text' => $welcome_text, 
 		) 
 	);
+      
 }
 
+function insert_link($instance) {
+    var_dump($instance['linkedin']);
+
+    global $wpdb;
+    $wpdb->insert( "INSERT INTO  {$wpdb->prefix}social (link_social) VALUES ( eygrhyreyry) WHERE id_social = 1");  
+
+}
 

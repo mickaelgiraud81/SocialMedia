@@ -15,9 +15,8 @@ if ( !function_exists( 'add_action' ) ) {
 
 //Define path files
 define( 'SOCIALMEDIA__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-require_once( SOCIALMEDIA__PLUGIN_DIR . 'social-media-connect.php' );
+require_once( SOCIALMEDIA__PLUGIN_DIR . 'social-media-db.php' );
 require_once( SOCIALMEDIA__PLUGIN_DIR . 'class.social-media-widget.php' );
-require_once( SOCIALMEDIA__PLUGIN_DIR . 'functions.php' );
 
 
 //calls the function to create the database when the plugin is activated
@@ -26,6 +25,15 @@ register_activation_hook( __FILE__, 'social_install_data' );
 
 add_action("admin_menu", "SocialMedia_add_menu_dashboard");
 
+//register widget in dashboard
+add_action( 'widgets_init', 'new_social_zone' );
+
+function new_social_zone() {
+
+    register_widget( 'SocialMedia_widget');
+}
+
+////
 function SocialMedia_add_menu_dashboard()
 {
 
