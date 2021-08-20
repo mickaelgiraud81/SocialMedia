@@ -49,10 +49,13 @@ function social_install_data() {
 }
 
 function insert_link($instance) {
-    var_dump($instance['linkedin']);
-
-    global $wpdb;
-    $wpdb->insert( "INSERT INTO  {$wpdb->prefix}social (link_social) VALUES ( eygrhyreyry) WHERE id_social = 1");  
-
+    if (isset($_POST['save'])) {
+        global $wpdb;
+        $wpdb->insert( "INSERT INTO  {$wpdb->prefix}social (link_social) VALUES ($instance) WHERE id_social = 1");  
+    }
 }
+
+
+
+
 

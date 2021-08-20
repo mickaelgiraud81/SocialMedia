@@ -13,6 +13,14 @@ class SocialMedia_widget extends WP_Widget{
             )
             );
     }
+//Select request 
+    function select(){
+
+        global $wpdb;
+    
+       $results = $wpdb->get_results( 
+            "SELECT * FROM $wpdb->prefix . 'social'");
+    }
 
 // The widget form (for the backend )
     function form( $instance ) {
@@ -50,10 +58,10 @@ class SocialMedia_widget extends WP_Widget{
     // Display the widget
     public function widget( $args, $instance ) {
 
-        $facebook_profile = '<a class="facebook" href="' . $instance['facebook'] . '"> <img src="'.plugin_dir_url(__FILE__).'icons/facebook.svg" alt=""></a>';
-        $instagram_profile = '<a class="instagram" href="' . $instance['instagram'] . '"> <img src="'.plugin_dir_url(__FILE__).'icons/instagram.svg"  alt=""></a>';
-        $youtube_profile = '<a class="youtube" href="' . $instance['youtube'] . '"><img src="'.plugin_dir_url(__FILE__).'icons/youtube.svg" alt=""></a>';
-        $linkedin_profile = '<a class="linkedin" href="' . $instance['linkedin'] . '"><img src="'.plugin_dir_url(__FILE__).'icons/linkedin.svg" alt=""></a>';
+        $facebook_profile = '<a class="facebook" target="_blank" href="' . $instance['facebook'] . '"> <img src="'.plugin_dir_url(__FILE__).'icons/facebook.svg" alt=""></a>';
+        $instagram_profile = '<a class="instagram" target="_blank" href="' . $instance['instagram'] . '"> <img src="'.plugin_dir_url(__FILE__).'icons/instagram.svg"  alt=""></a>';
+        $youtube_profile = '<a class="youtube" target="_blank" href="' . $instance['youtube'] . '"><img src="'.plugin_dir_url(__FILE__).'icons/youtube.svg" alt=""></a>';
+        $linkedin_profile = '<a class="linkedin" target="_blank" href="' . $instance['linkedin'] . '"><img src="'.plugin_dir_url(__FILE__).'icons/linkedin.svg" alt=""></a>';
 	
     echo $args['before_widget'];
    // Display the widget

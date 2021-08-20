@@ -18,6 +18,7 @@ define( 'SOCIALMEDIA__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 require_once( SOCIALMEDIA__PLUGIN_DIR . 'social-media-db.php' );
 require_once( SOCIALMEDIA__PLUGIN_DIR . 'class.social-media-widget.php' );
 
+define('SOCIALMEDIAPATH', plugin_dir_url(__FILE__));
 
 //calls the function to create the database when the plugin is activated
 register_activation_hook( __FILE__, 'social_install' );
@@ -47,20 +48,53 @@ function SocialMedia_add_menu_dashboard()
     );
 }
 
+function select(){
+
+    global $wpdb;
+
+   $results = $wpdb->get_results( 
+        "SELECT * FROM $wpdb->prefix . 'social'");
+}
 
 function SocialMedia_create_page_settings()
 {
 
     global $title;   // titre de la page du menu, tel que spécifié dans la fonction add_menu_page
 
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'social';
+
+    $results = $wpdb->get_results( "SELECT * FROM $table_name");
 ?>
 
     <div class="wrap">
 
         <h2><?php echo $title; ?></h2>
 
-        ...
+        <form action="" method="post">
 
+        <?php   
+         
+        foreach($results as $data): 
+        
+        ?>
+            <div>
+                <input type="hidden" name="id_social" value="<?= $data->id_social;?>">
+            </div>
+            <div>
+            <div>
+                <?= $data->name_social;?></p>
+            </div>
+            <div id="image">
+                <img id="preview" src="<?= SOCIALMEDIAPATH. $data->img_social;?>" alt="<?= $data->name_social;?>" />
+            </div>
+            <div>
+                <label for="link_social">Lien</label>
+                <input type="text" name="link_social">
+            </div>
+            <?php endforeach ?>
+            <input type="submit" value="Mettre à jour" name="submit">
+        </form>
     </div>
 
 <?php
