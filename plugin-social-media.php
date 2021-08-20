@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: Social Media
  * Description: A simple CSS and SVG driven social icons widget.
@@ -7,17 +6,26 @@
  * Author: Caroline et Mickael
  **/
 
+ 
+
  // Make sure we don't expose any info if called directly
 if ( !function_exists( 'add_action' ) ) {
 	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
 	exit;
 }
 
+function socialmedia_enqueue_script() {   
+    wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . 'js/form.js' );
+}
+add_action('admin_enqueue_scripts', 'socialmedia_enqueue_script');
+
+
 //Define path files
 define( 'SOCIALMEDIA__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 require_once( SOCIALMEDIA__PLUGIN_DIR . 'social-media-db.php' );
 require_once( SOCIALMEDIA__PLUGIN_DIR . 'class.social-media-widget.php' );
 
+//Define path img
 define('SOCIALMEDIAPATH', plugin_dir_url(__FILE__));
 
 //calls the function to create the database when the plugin is activated
@@ -82,11 +90,11 @@ function SocialMedia_create_page_settings()
                 <input type="hidden" name="id_social" value="<?= $data->id_social;?>">
             </div>
             <div>
-            <div>
-                <?= $data->name_social;?></p>
-            </div>
             <div id="image">
                 <img id="preview" src="<?= SOCIALMEDIAPATH. $data->img_social;?>" alt="<?= $data->name_social;?>" />
+            </div>
+            <div>
+                <?= $data->name_social;?></p>
             </div>
             <div>
                 <label for="link_social">Lien</label>
@@ -95,6 +103,7 @@ function SocialMedia_create_page_settings()
             <?php endforeach ?>
             <input type="submit" value="Mettre à jour" name="submit">
         </form>
+        <button>Ajouter un réseau social</button>
     </div>
 
 <?php
