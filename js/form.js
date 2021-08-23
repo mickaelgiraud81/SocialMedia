@@ -29,8 +29,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         i_name.setAttribute('name',"name_social");
         div.appendChild(i_name);
 
-        
-        
         let l_link = document.createElement("label"); 
         l_link.setAttribute('for',"link_social");
         l_link.textContent = "Lien";
