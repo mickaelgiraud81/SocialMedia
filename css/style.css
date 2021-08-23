@@ -1,0 +1,58 @@
+ .title{
+    text-align: center;
+
+}
+
+#form_socialmedia{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container_img > img{
+    width: 40px;
+}
+button.delete{
+    margin: 20px 0;
+}
+
+#wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#image{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+#preview{
+    width: 60px;
+}
+
+#name{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+#link{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#social_wrap2{
+    display: flex;
+    flex-direction: column;
+}

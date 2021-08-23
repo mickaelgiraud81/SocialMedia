@@ -21,7 +21,7 @@ add_action('admin_enqueue_scripts', 'socialmedia_enqueue_script');
 
 function socialmedia_enqueue_style()
 {
-    wp_enqueue_style('my_custom_style', plugin_dir_url(__FILE__) . 'custom/style.css');
+    wp_enqueue_style('my_custom_style', plugin_dir_url(__FILE__) . 'css/style.css');
 }
 add_action('admin_print_styles', 'socialmedia_enqueue_style');
 
@@ -85,38 +85,33 @@ function SocialMedia_create_page_settings()
     $results = $wpdb->get_results("SELECT * FROM $table_name");
 ?>
 
-    <div class="wrap" id="wrap">
+    <div class="wrap">
 
-        <h2><?php echo $title; ?></h2>
+        <h2 class="title"><?php echo $title; ?></h2>
 
         <form id="form_socialmedia" action="" method="post">
 
             <?php
             foreach ($results as $data) : ?>
-                <div id="social_wrap">
-                    <div>
-                        <input type="hidden" name="id_social[]" value="<?= $data->id_social; ?>">
-                    </div>
-                    <div class="name-reseaux">
-                        <img id="preview" src="<?= SOCIALMEDIAPATH . 'icons/' . $data->img_social; ?>" alt="<?= $data->name_social; ?>" />
-                    </div>
-                    <div class="social">
-                        <?= $data->name_social; ?></p>
-                    </div>
+
+                <div>
+                    <input type="hidden" name="id_social[]" value="<?= $data->id_social; ?>">
                 </div>
+                <div class="container_img">
+                    <img id="preview" src="<?= SOCIALMEDIAPATH . 'icons/' . $data->img_social; ?>" alt="<?= $data->name_social; ?>" />
+                    <?= $data->name_social; ?></p>
+                </div>
+
                 <div class="lien">
                     <label for="link_social">Lien</label>
                     <input type="text" name="link_social[]" value="<?= $data->link_social; ?>">
                 </div>
-                <button type="submit" value="<?= $data->id_social; ?>" name="delete">Supprimer le réseau social</button>
-                
+                <button class="delete" type="submit" value="<?= $data->id_social; ?>" name="delete">Supprimer le réseau social</button>
+            <?php endforeach ?>
+            <input type="submit" value="Mettre à jour" name="submit">
+        </form>
     </div>
-<?php
-            endforeach ?>
-<input type="submit" value="Mettre à jour" name="submit">
-</form>
-</div>
-<?php
+    <?php
 
     if (isset($_POST['submit'])) {
         $number = count($results);
@@ -136,49 +131,48 @@ function SocialMedia_create_page_settings()
         }
     }
     if (isset($_POST['delete'])) {
-            $wpdb->delete(
-                $table_name,
-                array('id_social' => $_POST['delete']),
-            );
+        $wpdb->delete(
+            $table_name,
+            array('id_social' => $_POST['delete']),
+        );
     }
 }
 
 
 function SocialMedia_submenu_page_settings()
 {
-?>
+    ?>
 
-<div class="wrap" id="wrap">
+    <div class="wrap" id="wrap">
 
-    <h2>Ajouter un réseau social</h2>
+        <h2>Ajouter un réseau social</h2>
 
-    <form id="form_add_socialmedia" action="" method="post" enctype="multipart/form-data">
+        <form id="form_add_socialmedia" action="" method="post" enctype="multipart/form-data">
 
-        <div id="social_wrap2">
+            <div id="social_wrap2">
 
-            <div id="image">
-                <label for="img_social">Choisir une image</label>
-                <input type="file" name="img_social" accept=".svg" id="imgInp" value="<?= SOCIALMEDIAPATH . 'icons/'; ?>" required>
-                <img id="preview" src="<?= SOCIALMEDIAPATH . 'icons/image.svg'; ?>" alt="your image" />
-                <i>Format accepté : 'SVG'.</i>
-            </div>
-            <div class="NL">
-                <div>
+                <div id="image">
+                    <label for="img_social">Choisir une image</label>
+                    <input type="file" name="img_social" accept=".svg" id="imgInp" value="<?= SOCIALMEDIAPATH . 'icons/'; ?>" required>
+                    <img id="preview" src="<?= SOCIALMEDIAPATH . 'icons/image.svg'; ?>" alt="your image" />
+                    <i>Format accepté : 'SVG'.</i>
+                </div>
+                <div id="name">
                     <label for="name_social">Nom du réseau social</label>
                     <input type="text" name="name_social">
                 </div>
-                <div>
+                <div id="link">
                     <label for="link_social">Lien</label>
                     <input type="text" name="link_social">
                 </div>
+                
             </div>
-        </div>
 
-    </form>
-    <div class="AM">
-        <input type="submit" value="Mettre à jour" name="save">
+        </form>
+        <div class="AM">
+            <input type="submit" value="Mettre à jour" name="save">
+        </div>
     </div>
-</div>
 <?php
     if (isset($_POST['save'])) {
         addsocial();
