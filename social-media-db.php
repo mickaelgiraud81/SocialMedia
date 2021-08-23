@@ -32,20 +32,21 @@ function social_install()
 function social_install_data() {
 	global $wpdb;
 	
-	$welcome_name = 'Mr. WordPress';
-	$welcome_text = 'Congratulations, you just completed the installation!';
+    $name = ['facebook', 'instagram', 'youtube', 'linkedin'];
+    $image = ['facebook.svg', 'instagram.svg', 'youtube.svg', 'linkedin.svg'];
 	
 	$social_table_name = $wpdb->prefix . 'social';
-	
-	$wpdb->insert( 
-		$social_table_name, 
-		array( 
-			'time' => current_time( 'mysql' ), 
-			'name' => $welcome_name, 
-			'text' => $welcome_text, 
-		) 
-	);
-      
+
+	for($i=0; $i < 4; $i++){
+        $wpdb->insert( 
+            $social_table_name, 
+            array( 
+                'name_social' => $name[$i],
+                'img_social' => $image[$i],
+            
+            )   
+        );
+    }  
 }
 
 function insert_link($instance) {
@@ -53,6 +54,15 @@ function insert_link($instance) {
         global $wpdb;
         $wpdb->insert( "INSERT INTO  {$wpdb->prefix}social (link_social) VALUES ($instance) WHERE id_social = 1");  
     }
+}
+
+///truncate table when the plugin is desactivate
+function truncateTable()
+{
+global $wpdb;
+$table_name = $wpdb->prefix . 'social';
+
+$wpdb->query('TRUNCATE TABLE ' . $table_name . '');
 }
 
 
