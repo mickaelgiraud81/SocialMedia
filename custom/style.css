@@ -1,0 +1,29 @@
+form {
+    margin: 0 auto;
+}
+
+.name-reseaux {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+#preview {
+    width: 30px;
+}
+
+.social {
+    padding: 20px 10px;
+    font-size: 20px;
+
+}
+
+.info {
+    display: flex;
+}
+
+.metjour{
+    margin-top: 20px;
+}
+
