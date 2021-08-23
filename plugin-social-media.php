@@ -152,7 +152,8 @@ function SocialMedia_submenu_page_settings()
   
     <div id="image">
         <label for="img_social">Choisir une image</label>
-        <input type="file" name="img_social" accept=".svg" id="imgInp" required>
+        <input type="file" name="img_social" accept=".svg" id="imgInp" value="<?=SOCIALMEDIAPATH .'icons/';?>" required>
+        <img id="preview" src="<?=SOCIALMEDIAPATH .'icons/';?>" alt="your image" />
         <i>Format accepté : 'SVG'.</i>
     </div>
     <div>
