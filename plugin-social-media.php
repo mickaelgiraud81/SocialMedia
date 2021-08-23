@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: Social Media
  * Description: A simple CSS and SVG driven social icons widget.
@@ -82,7 +83,7 @@ function SocialMedia_create_page_settings()
     $table_name = $wpdb->prefix . 'social';
 
     $results = $wpdb->get_results("SELECT * FROM $table_name");
-    ?>
+?>
 
     <div class="wrap" id="wrap">
 
@@ -90,100 +91,105 @@ function SocialMedia_create_page_settings()
 
         <form id="form_socialmedia" action="" method="post">
 
-        <?php
-foreach ($results as $data): ?>
-        <div id="social_wrap">
-            <div>
-                <input type="hidden" name="id_social[]" value="<?=$data->id_social;?>">
-            </div>
-            <div class="name-reseaux"
-                <div class="image">
-                    <img id="preview" src="<?=SOCIALMEDIAPATH .'icons/'. $data->img_social;?>" alt="<?=$data->name_social;?>" />
+            <?php
+            foreach ($results as $data) : ?>
+                <div id="social_wrap">
+                    <div>
+                        <input type="hidden" name="id_social[]" value="<?= $data->id_social; ?>">
+                    </div>
+                    <div class="name-reseaux">
+                        <img id="preview" src="<?= SOCIALMEDIAPATH . 'icons/' . $data->img_social; ?>" alt="<?= $data->name_social; ?>" />
+                    </div>
+                    <div class="social">
+                        <?= $data->name_social; ?></p>
+                    </div>
                 </div>
-                <div class="social">
-                    <?=$data->name_social;?></p>
+                <div class="lien">
+                    <label for="link_social">Lien</label>
+                    <input type="text" name="link_social[]" value="<?= $data->link_social; ?>">
                 </div>
-            </div>
-            <div class="lien">
-                <label for="link_social">Lien</label>
-                <input type="text" name="link_social[]" value="<?=$data->link_social;?>">
-            </div>
-        </div>
-            <?php 
-            
-            
-            endforeach ?>
-            <input type="submit" value="Mettre à jour" name="submit">
-        </form> 
+                <button type="submit" value="<?= $data->id_social; ?>" name="delete">Supprimer le réseau social</button>
+                
     </div>
 <?php
-    
- if(isset($_POST['submit'])){
-     $number = count($results);
-    for($i=0; $i <= $number; $i++){
-       
+            endforeach ?>
+<input type="submit" value="Mettre à jour" name="submit">
+</form>
+</div>
+<?php
 
-        $wpdb->update( 
-        $table_name, 
-        array( 
-            'link_social' =>  $_POST['link_social'][$i], 
-        ), 
-        array( 'id_social' => $_POST['id_social'][$i]), 
-        array( 
-            '%s', 
-        ) 
-    );
+    if (isset($_POST['submit'])) {
+        $number = count($results);
+        for ($i = 0; $i <= $number; $i++) {
+
+
+            $wpdb->update(
+                $table_name,
+                array(
+                    'link_social' =>  $_POST['link_social'][$i],
+                ),
+                array('id_social' => $_POST['id_social'][$i]),
+                array(
+                    '%s',
+                )
+            );
+        }
     }
- }
+    if (isset($_POST['delete'])) {
+            $wpdb->delete(
+                $table_name,
+                array('id_social' => $_POST['delete']),
+            );
+    }
 }
 
 
 function SocialMedia_submenu_page_settings()
 {
-    ?>
+?>
 
 <div class="wrap" id="wrap">
 
-<h2>Ajouter un réseau social</h2>
+    <h2>Ajouter un réseau social</h2>
 
-<form id="form_add_socialmedia" action="" method="post" enctype="multipart/form-data"> 
+    <form id="form_add_socialmedia" action="" method="post" enctype="multipart/form-data">
 
-<div id="social_wrap2">
+        <div id="social_wrap2">
 
-    <div id="image">
-        <label for="img_social">Choisir une image</label>
-        <input type="file" name="img_social" accept=".svg" id="imgInp" value="<?=SOCIALMEDIAPATH .'icons/';?>" required>
-        <img id="preview" src="<?=SOCIALMEDIAPATH .'icons/image.svg';?>" alt="your image" />
-        <i>Format accepté : 'SVG'.</i>
-    </div>
-    <div class="NL">
-        <div>
-            <label for="name_social">Nom du réseau social</label>
-            <input type="text" name="name_social">
+            <div id="image">
+                <label for="img_social">Choisir une image</label>
+                <input type="file" name="img_social" accept=".svg" id="imgInp" value="<?= SOCIALMEDIAPATH . 'icons/'; ?>" required>
+                <img id="preview" src="<?= SOCIALMEDIAPATH . 'icons/image.svg'; ?>" alt="your image" />
+                <i>Format accepté : 'SVG'.</i>
+            </div>
+            <div class="NL">
+                <div>
+                    <label for="name_social">Nom du réseau social</label>
+                    <input type="text" name="name_social">
+                </div>
+                <div>
+                    <label for="link_social">Lien</label>
+                    <input type="text" name="link_social">
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="link_social">Lien</label>
-            <input type="text" name="link_social">
-        </div>
-    </div>
-</div>
 
-</form>
+    </form>
     <div class="AM">
-    <input type="submit" value="Mettre à jour" name="save">
+        <input type="submit" value="Mettre à jour" name="save">
     </div>
 </div>
 <?php
-    if(isset($_POST['save'])){
+    if (isset($_POST['save'])) {
         addsocial();
     }
-
 }
 
 /// Function sql request insertion social media and move upload img
-function addsocial(){
-     
-    $dossier = SOCIALMEDIA__PLUGIN_DIR .'icons/';
+function addsocial()
+{
+
+    $dossier = SOCIALMEDIA__PLUGIN_DIR . 'icons/';
     $filename = basename($_FILES['img_social']['name']);
     $ext = strtoupper(pathinfo($filename, PATHINFO_EXTENSION));
     $file_tmp = $_FILES['img_social']['tmp_name'];
@@ -202,17 +208,17 @@ function addsocial(){
     global $wpdb;
     $table_name = $wpdb->prefix . 'social';
 
-    $wpdb->insert( 
-        $table_name, 
-        array( 
-            'name_social' => $_POST['name_social'], 
-            'link_social' => $_POST['link_social'], 
-            'img_social' => $return_name, 
-        ), 
-        array( 
-            '%s', 
-            '%s', 
+    $wpdb->insert(
+        $table_name,
+        array(
+            'name_social' => $_POST['name_social'],
+            'link_social' => $_POST['link_social'],
+            'img_social' => $return_name,
+        ),
+        array(
+            '%s',
+            '%s',
             '%s'
-        ) 
-    ); 
+        )
+    );
 }
