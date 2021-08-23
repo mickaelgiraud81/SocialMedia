@@ -32,7 +32,7 @@ define('SOCIALMEDIAPATH', plugin_dir_url(__FILE__));
 register_activation_hook( __FILE__, 'social_install' );
 register_activation_hook( __FILE__, 'social_install_data' );
 
-add_action("admin_menu", "SocialMedia_add_menu_dashboard");
+
 
 //register widget in dashboard
 add_action( 'widgets_init', 'new_social_zone' );
@@ -42,32 +42,36 @@ function new_social_zone() {
     register_widget( 'SocialMedia_widget');
 }
 
-////
+////add plugin to the dashboard menu
 function SocialMedia_add_menu_dashboard()
 {
 
     add_menu_page(
-        __("Social Media - settings", "SocialMedia"), // texte de la balise <title>
-        __("Social Media", "SocialMedia"),  // titre de l'option de menu
+        "Social Media", // texte de la balise <title>
+        "Social Media",  // titre de l'option de menu
         "manage_options", // droits requis pour voir l'option de menu
         "SocialMedia_menu_admin", // slug
         "SocialMedia_create_page_settings", // fonction de rappel pour créer la page
         "dashicons-share"
+    ); 
+
+    add_submenu_page(
+        'SocialMedia_menu_admin',
+        'Ajouter un réseau social',
+        'Ajouter un réseau social',
+        'manage_options',
+        'SocialMedia_submenu_page',
+        'SocialMedia_submenu_page_settings'
     );
 }
 
-function select(){
+add_action("admin_menu", "SocialMedia_add_menu_dashboard");
 
-    global $wpdb;
-
-   $results = $wpdb->get_results( 
-        "SELECT * FROM $wpdb->prefix . 'social'");
-}
 
 function SocialMedia_create_page_settings()
 {
 
-    global $title;   // titre de la page du menu, tel que spécifié dans la fonction add_menu_page
+    global $title;   // title menu page
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'social';
@@ -75,21 +79,18 @@ function SocialMedia_create_page_settings()
     $results = $wpdb->get_results( "SELECT * FROM $table_name");
 ?>
 
-    <div class="wrap">
+    <div class="wrap" id="wrap">
 
         <h2><?php echo $title; ?></h2>
 
-        <form action="" method="post">
+        <form id="form_socialmedia" action="" method="post">
 
         <?php   
-         
-        foreach($results as $data): 
-        
-        ?>
+        foreach($results as $data): ?>
+        <div id="social_wrap">
             <div>
                 <input type="hidden" name="id_social" value="<?= $data->id_social;?>">
             </div>
-            <div>
             <div id="image">
                 <img id="preview" src="<?= SOCIALMEDIAPATH. $data->img_social;?>" alt="<?= $data->name_social;?>" />
             </div>
@@ -100,13 +101,60 @@ function SocialMedia_create_page_settings()
                 <label for="link_social">Lien</label>
                 <input type="text" name="link_social">
             </div>
+        </div>
             <?php endforeach ?>
-            <input type="submit" value="Mettre à jour" name="submit">
+            
         </form>
-        <button>Ajouter un réseau social</button>
-    </div>
 
+            <input type="submit" value="Mettre à jour" name="submit">
+    </div>
 <?php
 
+ if(isset($_POST['submit'])){
+    $wpdb->insert( 
+        $table_name, 
+        array( 
+            'column1' => 'value1', 
+            'column2' => 123, 
+        ), 
+        array( 
+            '%s', 
+            '%d', 
+        ) 
+    );
+ }
 }
 
+function SocialMedia_submenu_page_settings()
+{
+    ?>
+
+<div class="wrap" id="wrap">
+
+<h2><?php echo $title; ?></h2>
+
+<form id="form_add_socialmedia" action="" method="post">
+
+<div id="social_wrap">
+  
+    <div id="image">
+        <label for="img_social">Choisir une image</label>
+        <input type="file" name="img_social" accept=".svg" id="imgInp">
+        <i>Format accepté : 'SVG'.</i>
+    </div>
+    <div>
+        <label for="name_social">Nom du réseau social</label>
+        <input type="text" name="name_social">
+    </div>
+    <div>
+        <label for="link_social">Lien</label>
+        <input type="text" name="link_social">
+    </div>
+</div>
+    
+</form>
+    <button type='button' name="add" id="add_social">Ajouter un réseau social</button>
+    <input type="submit" value="Mettre à jour" name="save">
+</div> 
+<?php
+}
