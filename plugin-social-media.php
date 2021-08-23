@@ -36,7 +36,8 @@ define('SOCIALMEDIAPATH', plugin_dir_url(__FILE__));
 register_activation_hook(__FILE__, 'social_install');
 register_activation_hook(__FILE__, 'social_install_data');
 
-
+//calls the function to desactive the database when the plugin is activated
+register_deactivation_hook(__FILE__, 'truncateTable');
 
 //register widget in dashboard
 add_action('widgets_init', 'new_social_zone');
